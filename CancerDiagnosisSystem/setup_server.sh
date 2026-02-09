@@ -11,7 +11,7 @@ echo ""
 # Check if we're in the right directory
 if [ ! -f "headers/CancerDiagnosisSystem.h" ] && [ ! -f "CancerDiagnosisSystem.h" ]; then
     echo "ERROR: Please run this script from the project root directory"
-    echo "Expected location: e:\dsaproject - Copy\CancerDiagnosisSystem\"
+    echo "Expected location: CancerDiagnosisSystem/"
     exit 1
 fi
 

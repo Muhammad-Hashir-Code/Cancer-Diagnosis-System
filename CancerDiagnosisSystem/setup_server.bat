@@ -11,7 +11,7 @@ echo.
 REM Check if we're in the right directory
 if not exist "CancerDiagnosisSystem.h" if not exist "headers\CancerDiagnosisSystem.h" (
     echo ERROR: Please run this script from the project root directory
-    echo Expected location: e:\dsaproject - Copy\CancerDiagnosisSystem\
+    echo Expected location: CancerDiagnosisSystem\
     pause
     exit /b 1
 )
