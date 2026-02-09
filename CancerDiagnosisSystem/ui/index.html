@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Cancer Diagnosis System</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Splash / Landing Screen -->
+    <div id="splash" class="splash" role="dialog" aria-label="Landing screen">
+        <div class="splash-content" id="splash-content">
+            <!-- Microscope emoji logo (user requested) -->
+            <div class="splash-logo" aria-hidden="true">🔬</div>
+            <h1 class="splash-title">Cancer Diagnosis System</h1>
+            <p class="splash-tagline">Welcome to the AI-based cancer diagnosis system</p>
+            <div class="splash-loader" id="splash-loader" aria-hidden="true"></div>
+            <p class="splash-skip">Click anywhere to continue</p>
+        </div>
+    </div>
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>🔬 CDS</h1>
+                <p>Cancer Diagnosis System</p>
+            </div>
+            <nav class="nav-menu">
+                <button class="nav-btn active" data-section="dashboard">
+                    <span class="icon">📊</span> Dashboard
+                </button>
+                <button class="nav-btn" data-section="load-data">
+                    <span class="icon">📥</span> Load Data
+                </button>
+                <button class="nav-btn" data-section="add-patient">
+                    <span class="icon">➕</span> Add Patient
+                </button>
+                <button class="nav-btn" data-section="diagnosis">
+                    <span class="icon">🔍</span> Run Diagnosis
+                </button>
+                <button class="nav-btn" data-section="queue">
+                    <span class="icon">🧾</span> Queue
+                </button>
+                <button class="nav-btn" data-section="view-data">
+                    <span class="icon">👥</span> View Data
+                </button>
+                <button class="nav-btn" data-section="evaluate">
+                    <span class="icon">📈</span> Evaluate Models
+                </button>
+                <button class="nav-btn" data-section="analytics">
+                    <span class="icon">📊</span> Analytics
+                </button>
+                <button class="nav-btn" data-section="settings">
+                    <span class="icon">⚙️</span> Settings
+                </button>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h2 id="section-title">Dashboard</h2>
+                <div class="header-right">
+                    <div class="status-indicator">
+                        <span class="status-dot" id="status-dot"></span>
+                        <span id="status-text">Ready</span>
+                    </div>
+                    <button class="help-btn" onclick="showHelp()">❓</button>
+                </div>
+            </header>
+
+            <!-- Content Sections -->
+            <div class="content">
+                <!-- Dashboard Section -->
+                <section id="dashboard" class="section active">
+                    <div class="dashboard-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">📊</div>
+                            <h3>Genetic Records</h3>
+                            <p class="stat-value" id="stat-genetic">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">👥</div>
+                            <h3>Patient Records</h3>
+                            <p class="stat-value" id="stat-patients">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🤖</div>
+                            <h3>Models Status</h3>
+                            <p class="stat-value" id="stat-models">Untrained</p>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">⏳</div>
+                            <h3>Queue Size</h3>
+                            <p class="stat-value" id="stat-queue">0</p>
+                        </div>
+                    </div>
+                    <div class="info-section">
+                        <h3>System Information</h3>
+                        <div class="info-box">
+                            <p><strong>Welcome to AI Cancer Diagnosis System</strong></p>
+                            <p>This system uses machine learning to predict cancer risk from genetic data. Select an option from the menu to get started.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Load Data Section -->
+                <section id="load-data" class="section">
+                    <div class="form-card">
+                        <h3>Load Data from Files</h3>
+                        <div class="form-group">
+                            <label for="genes-file">Genes CSV File:</label>
+                            <input type="text" id="genes-file" placeholder="data/genes.csv" value="data/genes.csv">
+                        </div>
+                        <div class="form-group">
+                            <label for="genes-file-input">Or upload Genes CSV:</label>
+                            <input type="file" id="genes-file-input" accept=".csv">
+                        </div>
+                        <div class="form-group">
+                            <label for="patients-file">Patients CSV File:</label>
+                            <input type="text" id="patients-file" placeholder="data/patients.csv" value="data/patients.csv">
+                        </div>
+                        <div class="form-group">
+                            <label for="patients-file-input">Or upload Patients CSV:</label>
+                            <input type="file" id="patients-file-input" accept=".csv">
+                        </div>
+                        <button class="btn btn-primary" onclick="loadData()">Load Data</button>
+                        <button class="btn btn-primary" onclick="loadDataOnServer()">Load Data on Server</button>
+                        <div id="load-status" class="status-message"></div>
+                    </div>
+                </section>
+
+                <!-- Add Patient Section -->
+                <section id="add-patient" class="section">
+                    <div class="form-card">
+                        <h3>Add Patient Genetic Data</h3>
+                        <div class="form-group">
+                            <label for="patient-id">Patient ID:</label>
+                            <input type="text" id="patient-id" placeholder="e.g., PAT001">
+                        </div>
+                        <div class="form-group">
+                            <label for="patient-name">Patient Name:</label>
+                            <input type="text" id="patient-name" placeholder="e.g., John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label for="patient-age">Age:</label>
+                            <input type="number" id="patient-age" placeholder="e.g., 45" min="0" max="120">
+                        </div>
+                        <h4>Genetic Data Records</h4>
+                        <div id="genetic-records-container"></div>
+                        <button class="btn btn-secondary" onclick="addGeneticRecord()">+ Add Genetic Record</button>
+                        <button class="btn btn-primary" onclick="submitPatient()">Submit Patient</button>
+                        <div id="patient-status" class="status-message"></div>
+                    </div>
+                </section>
+
+                <!-- Diagnosis Section -->
+                <section id="diagnosis" class="section">
+                    <div class="form-card">
+                        <h3>Run Diagnosis</h3>
+                        <div class="form-group">
+                            <label for="diagnosis-patient-id">Patient ID:</label>
+                            <input type="text" id="diagnosis-patient-id" placeholder="Enter patient ID">
+                        </div>
+                        <div class="form-group">
+                            <label for="model-select">Select ML Model:</label>
+                            <select id="model-select">
+                                <option value="logistic">Logistic Regression</option>
+                                <option value="knn">K-Nearest Neighbors (KNN)</option>
+                                <option value="decision_tree">Decision Tree</option>
+                                <option value="naive_bayes">Naive Bayes</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" onclick="runDiagnosis()">Run Diagnosis</button>
+                        <div id="diagnosis-result" class="result-card"></div>
+                    </div>
+                </section>
+
+                <!-- Queue Section -->
+                <section id="queue" class="section">
+                    <div class="form-card">
+                        <h3>Test Queue</h3>
+                        <p>Patients added to the queue will be diagnosed in FIFO order when you process the queue.</p>
+                        <div class="form-group">
+                            <label for="enqueue-patient-id">Patient ID to enqueue:</label>
+                            <input type="text" id="enqueue-patient-id" placeholder="Enter patient ID to add to queue">
+                        </div>
+                        <div class="form-group">
+                            <label for="queue-model-select">Select ML Model for Queue Diagnosis:</label>
+                            <select id="queue-model-select">
+                                <option value="logistic">Logistic Regression</option>
+                                <option value="knn">K-Nearest Neighbors (KNN)</option>
+                                <option value="decision_tree">Decision Tree</option>
+                                <option value="naive_bayes">Naive Bayes</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-secondary" onclick="enqueuePatientFromUI()">Enqueue Patient</button>
+                            <button class="btn btn-primary" onclick="processQueueFromUI()">Run Diagnosis on Queue</button>
+                        </div>
+                        <div id="queue-status" class="status-message"></div>
+                        <h4>Queued Patients (<span id="queue-size">0</span>)</h4>
+                        <div id="queue-container" class="table-container"></div>
+                        <h4>Diagnosis Results</h4>
+                        <div id="queue-results-container"></div>
+                    </div>
+                </section>
+
+                <!-- View Data Section -->
+                <section id="view-data" class="section">
+                    <div class="tabs">
+                        <button class="tab-btn active" data-tab="genetic-data">Genetic Data</button>
+                        <button class="tab-btn" data-tab="patient-history">Patient History</button>
+                        <button class="tab-btn" data-tab="mutation-mappings">Mutation Mappings</button>
+                    </div>
+
+                    <div id="genetic-data" class="tab-content active">
+                        <button class="btn btn-secondary" onclick="loadGeneticData()">Load Genetic Data</button>
+                        <div id="genetic-table-container"></div>
+                    </div>
+
+                    <div id="patient-history" class="tab-content">
+                        <button class="btn btn-secondary" onclick="loadPatientHistory()">Load Patient History</button>
+                        <div id="patient-table-container"></div>
+                    </div>
+
+                    <div id="mutation-mappings" class="tab-content">
+                        <button class="btn btn-secondary" onclick="loadMutationMappings()">Load Mappings</button>
+                        <div id="mutation-table-container"></div>
+                    </div>
+                </section>
+
+                <!-- Evaluate Models Section -->
+                <section id="evaluate" class="section">
+                    <div class="form-card">
+                        <h3>Model Evaluation</h3>
+                        <p>Evaluate all trained models on test data.</p>
+                        <button class="btn btn-primary" onclick="evaluateAllModels()">Evaluate Models</button>
+                        <div id="evaluation-results" class="results-container"></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Model Performance Comparison</h3>
+                        <div class="chart-container">
+                            <canvas id="modelChart" height="100"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Analytics Section -->
+                <section id="analytics" class="section">
+                    <div class="chart-card">
+                        <h3>Patient Demographics</h3>
+                        <p>Distribution of cancerous vs non-cancerous patients</p>
+                        <div class="chart-container">
+                            <canvas id="patientChart" height="80"></canvas>
+                        </div>
+                    </div>
+                    <div class="stats-summary">
+                        <div class="summary-item">
+                            <span class="summary-label">Total Patients</span>
+                            <span class="summary-value" id="total-patients">0</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Cancerous</span>
+                            <span class="summary-value cancerous" id="cancerous-count">0</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Non-Cancerous</span>
+                            <span class="summary-value safe" id="non-cancerous-count">0</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Cancerous %</span>
+                            <span class="summary-value" id="cancerous-percent">0%</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Settings Section -->
+                <section id="settings" class="section">
+                    <div class="form-card">
+                        <h3>Settings</h3>
+                        <div class="form-group">
+                            <label for="api-endpoint">API Endpoint:</label>
+                            <input type="text" id="api-endpoint" placeholder="http://localhost:8080" value="http://localhost:8080">
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="dark-mode"> Dark Mode
+                            </label>
+                        </div>
+                        <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
+                        <button class="btn btn-secondary" onclick="resetSystem()">Reset System</button>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for Help -->
+    <div id="help-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeHelp()">&times;</span>
+            <h2>Help & Documentation</h2>
+            <div class="help-content">
+                <h3>Troubleshooting: Data Not Loading on Server</h3>
+                <p><strong>If "Load Data on Server" fails:</strong></p>
+                <ol>
+                    <li><strong>Start the Server:</strong> Open terminal from project root and run: <code>./build/Release/cds_server.exe</code></li>
+                    <li><strong>Check Endpoint:</strong> Go to Settings → verify API endpoint is <code>http://localhost:8080</code></li>
+                    <li><strong>Check Data Files:</strong> Ensure <code>data/genes.csv</code> and <code>data/patients.csv</code> exist with correct headers</li>
+                    <li><strong>Check Console:</strong> Open browser console (F12) for error messages</li>
+                </ol>
+                <h3>Getting Started</h3>
+                <ol>
+                    <li><strong>Load Data:</strong> First, load data from CSV files containing genetic and patient information.</li>
+                    <li><strong>Add Patient:</strong> Add individual patients with their genetic data manually.</li>
+                    <li><strong>Run Diagnosis:</strong> Select a model and run diagnosis on a specific patient.</li>
+                    <li><strong>View Results:</strong> Check diagnosis results and system statistics on the dashboard.</li>
+                </ol>
+                <h3>Available Models</h3>
+                <ul>
+                    <li><strong>Logistic Regression:</strong> Linear model for binary classification</li>
+                    <li><strong>KNN:</strong> Instance-based learning algorithm</li>
+                    <li><strong>Decision Tree:</strong> Tree-based classification model</li>
+                    <li><strong>Naive Bayes:</strong> Probabilistic classifier</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="notification" class="notification"></div>
+
+    <!-- Robot Advisor -->
+    <div id="robot-advisor" class="robot-advisor">
+        <div class="robot-header">
+            <div class="robot-icon">🤖</div>
+            <div class="robot-title">
+                <h4>Dr. Gene</h4>
+                <p>Your AI Advisor</p>
+            </div>
+            <button class="robot-close" onclick="toggleRobotAdvisor()" title="Toggle Robot">−</button>
+        </div>
+        <div class="robot-messages" id="robot-messages">
+            <!-- Messages will appear here -->
+        </div>
+        <div class="robot-input-area">
+            <input type="text" id="robot-input" placeholder="Ask me anything..." onkeypress="handleRobotInput(event)">
+            <button class="btn-send" onclick="sendRobotMessage()" title="Send">📤</button>
+        </div>
+    </div>
+
+    <!-- Robot Advisor Toggle Button (when collapsed) -->
+    <button id="robot-toggle-btn" class="robot-toggle-btn" onclick="toggleRobotAdvisor()" title="Dr. Gene - Your AI Advisor">
+        🤖
+    </button>
+
+    <script src="script.js"></script>
+</body>
+</html>

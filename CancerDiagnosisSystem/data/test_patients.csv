@@ -1,0 +1,12 @@
+patient_id,name,age
+TEST_P001,High Risk Patient,60
+TEST_P002,Low Risk Patient,28
+TEST_P003,Medium Risk Patient,45
+TEST_P004,Borderline Patient,50
+TEST_P005,Multiple Genes Patient,38
+TEST_P006,Very High Risk,65
+TEST_P007,Very Low Risk,25
+TEST_P008,Average Risk,42
+TEST_P009,High Mutation Score,58
+TEST_P010,Low Mutation Score,30
+
