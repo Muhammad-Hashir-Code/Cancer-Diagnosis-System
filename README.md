@@ -359,15 +359,6 @@ P001,John Doe,45
 P002,Jane Smith,52
 ```
 
-## 🎨 Screenshots
-
-> *Note: Add screenshots of your application here*
-
-- Dashboard showing system statistics
-- Diagnosis interface with model selection
-- Results visualization with charts
-- Model evaluation comparison
-
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
