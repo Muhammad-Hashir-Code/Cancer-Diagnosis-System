@@ -128,7 +128,7 @@ The **Cancer Diagnosis System** is a comprehensive, full-stack application that 
 1. **Clone the repository**
    ```bash
    git clone https://github.com/Muhammad-Hashir-Code/Cancer-Diagnosis-System.git
-   cd Cancer-Diagnosis-System/CancerDiagnosisSystem
+   cd Cancer-Diagnosis-System
    ```
 
 2. **Build the project**
